@@ -1,9 +1,20 @@
-# Gray Image to convert mem file for verilog programming
-Need to change Gray Image file to mem file because we can not use bmp fie to use a verilog source.
-so added an converting code to gray bmp data to mem data from previous bmp to Gray code.
-below is the code for gray data to mem data
+# Converting a Grayscale BMP to a .mem File for Verilog Designs
 
----
+We convert a grayscale image (BMP) into a .mem (memory-initialization) file because typical FPGA/HDL flows do not parse image file formats (headers, palettes, compression) at synthesis or runtime. Instead, Block RAM/ROM is initialized directly from .mem using \$readmemh/\$readmemb.
+
+A .mem file contains only pixel values (no headers or row padding), which simplifies addressing and display logic. It can also reduce size relative to BMP by removing headers and 4-byte row padding (note: hex-text .mem is larger than raw binary).
+
+## What the converter does
+
+* Reads a 630×630, 24-bit BMP.
+* Computes 8-bit grayscale luminance for each pixel (Y = 0.299R + 0.587G + 0.114B).
+* Writes the values to a .mem file in the order expected by the hardware (e.g., left-to-right, top-to-bottom) for \$readmemh.
+
+## Typical output formats
+
+* Hex text for \$readmemh (one byte per pixel as 00–FF, arranged N values per line).
+* Raw binary (1 byte per pixel) if your loader expects a binary blob.
+
 
 // 1. ======== 파일 생성 추가 ========
 const char* memFile = "output_image.mem";  // MEM 파일 이름 추가
