@@ -1,4 +1,4 @@
-#Gray Image to convert mem file for verilog programming
+# Gray Image to convert mem file for verilog programming
 Need to change Gray Image file to mem file because we can not use bmp fie to use a verilog source.
 so added an converting code to gray bmp data to mem data from previous bmp to Gray code.
 below is the code for gray data to mem data
